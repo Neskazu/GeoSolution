@@ -1,0 +1,63 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<CityObjectModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <form asp-action="Index" method="get">
+            <input type="text" name="searchQuery" placeholder="Search for objects" />
+            <input type="submit" value="Search" />
+        </form>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        //layers for geoserver
+        var layers = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Layers));
+        var map = L.map('map').setView([54.9924, 73.3686], 12); // omsk coords
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        layers.forEach(function (layer) {
+            L.tileLayer.wms("http://localhost:8080/geoserver/TestWorkSpace/wms", {
+                layers: layer,
+                format: 'image/png',
+                transparent: true,
+                attribution: "GeoServer"
+            }).addTo(map);
+        });
+
+        @foreach (var cityObject in Model)
+        {
+            var latitude = @cityObject.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            var longitude = @cityObject.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            <text>
+                console.log("Adding marker for: @cityObject.Name");
+            var marker = L.marker([@latitude, @longitude]).addTo(map);
+            marker.bindPopup("<b>@cityObject.Name</b><br>@cityObject.Description");
+            </text>
+        }
+    </script>
+</body>
+</html>
