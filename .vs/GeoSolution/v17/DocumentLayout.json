@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\Repo\\GeoSolution\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\Program.cs",
+              "RelativeDocumentMoniker": "GeoSolution\\Program.cs",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\Program.cs",
+              "RelativeToolTip": "GeoSolution\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T14:21:42.431Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
