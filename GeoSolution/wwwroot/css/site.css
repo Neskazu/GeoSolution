@@ -1,22 +1,139 @@
+/*theme setting colors etc*/
+:root {
+    --background-color: white;
+    --text-color: black;
+    --link-color: blue;
+    --button-hover-color:#b1adad;
+    --header-background-color: lightgray;
+    --select-background-color: #ececec;
+    --select-text-color: #333;
+}
+
+.dark-theme {
+    --background-color: #4e5257;
+    --text-color: #e0e0e0;
+    --link-color: #d9d7dd;
+    --button-hover-color: #5a5f65;
+    --header-background-color: #1f1f1f;
+    --select-background-color: #515152;
+    --select-text-color: #ccc;
+}
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    outline: none; 
+    box-shadow: none; 
+    color: var(--link-color);
 }
-
+button:active {
+    background-color: red; 
+}
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
+}
+
+    a.nav-link {
+        color: var(--link-color);
+    }
+
+        a.nav-link:hover {
+            color: var(--link-hover-color);
+        }
+
+button.btn-link {
+    border-radius: 6px;
+    color: var(--link-color);
+}
+button.nav-link {
+    border-radius: 6px;
+    --text-color: var(--text-color)
+}
+
+button.btn-link:hover {
+    color: var(--link-hover-color);
+    background-color: var(--button-hover-color); /* Более светлый фон */
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.6); /* Свечение */
+}
+div {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+nav {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+td {
+    color: var(--text-color);
+}
+
+}
+
+tr {
+    color: var(--text-color);
+}
+
+th {
+    color: var(--text-color);
+}
+.form-control {
+    background-color: var(--select-background-color); 
+    color: var(--select-text-color); 
+    border: 1px solid var(--text-color); 
+    border-radius: 5px; 
+    padding: 10px; 
+    outline: none;
+}
+.form-control:focus {
+    background-color: var(--button-hover-color); 
+    border-color: var(--link-color); 
+    color: var(--text-color); 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+select.form-control {
+    background-color: var(--select-background-color);
+    color: var(--select-text-color);
+    border-color: var(--text-color);
+}
+
+    select.form-control option {
+        background-color: var(--select-background-color);
+        color: var(--select-text-color);
+    }
+
+    select.form-control:focus {
+        background-color: var(--select-background-color);
+        color: var(--select-text-color);
+        border-color: var(--text-color);
+    }
+
+}
+
+
+header {
+    background-color: var(--header-background-color);
+}
+
+footer {
+    z-index: -1;
 }

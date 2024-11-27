@@ -3,8 +3,48 @@
   "WorkspaceRootPath": "F:\\Repo\\GeoSolution\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\models\\applicationusermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\models\\applicationusermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\wwwroot\\js\\theme.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\wwwroot\\js\\theme.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|f:\\repo\\geosolution\\geosolution\\geosolution.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{78886C3D-D58A-4B69-BC35-52F63BA58814}|GeoSolution\\GeoSolution.csproj|solutionrelative:geosolution\\geosolution.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,21 +54,147 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\appsettings.json",
+              "RelativeDocumentMoniker": "GeoSolution\\appsettings.json",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\appsettings.json",
+              "RelativeToolTip": "GeoSolution\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-27T06:39:28.816Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Theme.js",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\js\\Theme.js",
+              "RelativeDocumentMoniker": "GeoSolution\\wwwroot\\js\\Theme.js",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\js\\Theme.js",
+              "RelativeToolTip": "GeoSolution\\wwwroot\\js\\Theme.js",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAsAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-27T05:36:16.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "site.css",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "GeoSolution\\wwwroot\\css\\site.css",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "GeoSolution\\wwwroot\\css\\site.css",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAG0AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-27T05:35:20.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "GeoSolution\\Views\\Account\\Login.cshtml",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "GeoSolution\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-27T05:21:55.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\Views\\Account\\Register.cshtml",
+              "RelativeDocumentMoniker": "GeoSolution\\Views\\Account\\Register.cshtml",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\Views\\Account\\Register.cshtml",
+              "RelativeToolTip": "GeoSolution\\Views\\Account\\Register.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-27T05:20:39.796Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "GeoSolution\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "GeoSolution\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACIAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-27T05:17:42.501Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "GeoSolution\\Controllers\\AccountController.cs",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "GeoSolution\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAA5wB8AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T07:29:44.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GeoSolution.csproj",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\GeoSolution.csproj",
+              "RelativeDocumentMoniker": "GeoSolution\\GeoSolution.csproj",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\GeoSolution.csproj",
+              "RelativeToolTip": "GeoSolution\\GeoSolution.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-11-26T07:21:35.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "GeoSolution\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "GeoSolution\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T07:18:11.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApplicationUserModel.cs",
+              "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\Models\\ApplicationUserModel.cs",
+              "RelativeDocumentMoniker": "GeoSolution\\Models\\ApplicationUserModel.cs",
+              "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\Models\\ApplicationUserModel.cs",
+              "RelativeToolTip": "GeoSolution\\Models\\ApplicationUserModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T07:14:53.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Program.cs",
               "DocumentMoniker": "F:\\Repo\\GeoSolution\\GeoSolution\\Program.cs",
               "RelativeDocumentMoniker": "GeoSolution\\Program.cs",
               "ToolTip": "F:\\Repo\\GeoSolution\\GeoSolution\\Program.cs",
               "RelativeToolTip": "GeoSolution\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAAoAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-01T14:21:42.431Z",
               "EditorCaption": ""

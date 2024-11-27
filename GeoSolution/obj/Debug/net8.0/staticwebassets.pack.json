@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "F:\\Repo\\GeoSolution\\GeoSolution\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\GeoSolution.bundle.scp.css",
-      "PackagePath": "staticwebassets\\GeoSolution.bundle.scp.css"
+      "PackagePath": "staticwebassets\\GeoSolution.06gjg24tia.bundle.scp.css"
     },
     {
       "Id": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\css\\site.css",
@@ -11,6 +11,10 @@
     {
       "Id": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\js\\Theme.js",
+      "PackagePath": "staticwebassets\\js\\Theme.js"
     },
     {
       "Id": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\js\\site.js",
@@ -243,6 +247,10 @@
     {
       "Id": "F:\\Repo\\GeoSolution\\GeoSolution\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.GeoSolution.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.GeoSolution.Microsoft.AspNetCore.StaticWebAssets.props",
