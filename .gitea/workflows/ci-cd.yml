@@ -1,29 +1,44 @@
-name: CI Pipeline
+name: Build and Test
 
 on:
+  push:
+    branches:
+      - '**' # любые ветки
   pull_request:
+    branches:
+      - '**'
 
 jobs:
   build:
     runs-on: gitea-runner
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3
-        with: { dotnet-version: '8.0.x' }
-      - run: dotnet restore
-      - run: dotnet build --no-restore
-      - run: dotnet test --no-build
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
   quality:
     runs-on: gitea-runner
-    needs: build               # ждёт, пока build закончится
-    continue-on-error: true    # падения здесь не сломают статус overall
+    needs: build              
+    continue-on-error: true 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3
-        with: { dotnet-version: '8.0.x' }
-      - run: dotnet restore
-      - run: dotnet format --verify-no-changes --no-restore
-      - run: dotnet list package --vulnerable --include-transitive
-      - run: dotnet list package --outdated
+      - name: Check code format
+        run: dotnet format --verify-no-changes --no-restore
 
+      - name: Scan for vulnerable dependencies
+        run: dotnet list package --vulnerable --include-transitive
+        
+      - name: List outdated dependencies
+        run: dotnet list package --outdated
