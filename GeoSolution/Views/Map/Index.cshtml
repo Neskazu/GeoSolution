@@ -1,0 +1,13 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@await Component.InvokeAsync("Map", new MapViewModel
+{
+    GeoServerUrl = "http://geoserver_container:8080/geoserver/ows?",
+    LayerName = "GeoSolution:CustomBuildings",
+    CenterLatitude = 54.98,
+    CenterLongitude = 73.36,
+    Zoom = 10
+})

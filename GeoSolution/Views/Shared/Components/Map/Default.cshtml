@@ -1,0 +1,67 @@
+﻿@model MapViewModel
+
+<div id="map" style="height: 500px; width: 100%;"></div>
+
+<script>
+    var geoServerUrl = '@Model.GeoServerUrl';
+   
+
+    var map = L.map('map').setView([
+    @Model.CenterLatitude.ToString(System.Globalization.CultureInfo.InvariantCulture),
+    @Model.CenterLongitude.ToString(System.Globalization.CultureInfo.InvariantCulture)
+    ], @Model.Zoom);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    //def url "http://geoserver_container:8080/geoserver/ows?"
+    var geoServerUrl = 'http://localhost:8084/geoserver/ows?';
+
+    L.tileLayer.wms(geoServerUrl, {
+        layers: '@Model.LayerName',
+        format: 'image/png',
+        transparent: true,
+        styles: '',
+        srs: 'EPSG:4326',
+        attribution: 'GeoServer'
+    }).addTo(map);
+     console.log("GeoServer URL:", geoServerUrl);
+    // Get click data for GetFeatureInfo
+    map.on('click', function(e) {
+        var size = map.getSize();
+        var bounds = map.getBounds();
+        var minX = parseFloat(bounds.getWest());
+        var minY = parseFloat(bounds.getSouth());
+        var maxX = parseFloat(bounds.getEast());
+        var maxY = parseFloat(bounds.getNorth());
+        console.log("minX:", minX, "maxX:", maxX, "minY:", minY, "maxY:", maxY, "Map size:", size);
+
+        var point = map.latLngToContainerPoint(e.latlng, map.getZoom());
+        var x = Math.floor(point.x);
+        var y = Math.floor(point.y);
+
+        var url = '/Map/GetFeatureInfo?' +
+                  'x=' + x +
+                  '&y=' + y +
+                  '&bboxMinX=' + minX +
+                  '&bboxMinY=' + minY +
+                  '&bboxMaxX=' + maxX +
+                  '&bboxMaxY=' + maxY +
+                  '&width=' + size.x +
+                  '&height=' + size.y;
+        console.log("Request URL for GetFeatureInfo:", url);
+        fetch(url)
+            .then(function(response) { return response.text(); })
+            .then(function(html) {
+                L.popup()
+                    .setLatLng(e.latlng)
+                    .setContent(html)
+                    .openOn(map);
+            })
+            .catch(function(error) {
+                console.error('Error with data from GetFeatureInfo:', error);
+            });
+    });
+</script>
+

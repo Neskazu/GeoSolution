@@ -74,7 +74,6 @@ button.btn-link:hover {
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.6); /* Свечение */
 }
 div {
-    background-color: var(--background-color);
     color: var(--text-color);
 }
 
@@ -85,6 +84,7 @@ nav {
 
 td {
     color: var(--text-color);
+    --background-color: var(--background-color);
 }
 
 }
@@ -129,11 +129,52 @@ select.form-control {
 
 }
 
-
 header {
     background-color: var(--header-background-color);
 }
 
 footer {
     z-index: -1;
+}
+.leaflet-popup-content-wrapper {
+    background: var(--select-background-color) !important;
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important;
+    padding: 10px !important;
+    font-family: Arial, sans-serif !important;
+}
+
+.leaflet-popup-tip {
+    background: var(--select-background-color) !important;
+}
+
+
+.leaflet-popup-content {
+    font-size: 14px;
+    color: var(--select-text-color);
+}
+
+    .leaflet-popup-content .popup p {
+        margin: 5px 0;
+        padding: 0;
+    }
+
+        .leaflet-popup-content .popup p:first-child {
+            font-weight: bold;
+            font-size: 16px;
+            color: #007bff;
+        }
+
+.leaflet-popup-tip {
+    background: var(--select-background-color);
+}
+
+    .leaflet-popup-close-button {
+    color: var(--select-text-color);
+    font-size: 18px;
+    top: 5px;
+    right: 5px;
+}
+.leaflet-container a.leaflet-popup-close-button {
+    color: var(--select-text-color) !important;
 }

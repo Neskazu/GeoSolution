@@ -1,0 +1,63 @@
+﻿@model IEnumerable<GeoSolution.Models.CustomBuildingModel>
+
+<h2>Buildings</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Actions</th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var building in Model)
+        {
+            <tr>
+                <td><span style="background-color:@building.Color; padding: 0 10px;">&nbsp;</span>@building.Name</td>
+                <td>@building.BuildingType</td>
+                <td>@building.Description</td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@building.Id" class="btn btn-warning">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@building.Id" method="post" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this building?');">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#entrances-@building.Id">
+                        Show Entrances
+                    </button>
+                    <div class="collapse" id="entrances-@building.Id">
+                        <ul>
+                            @foreach (var entrance in building.Entrances)
+                            {
+                                <li>
+                                    Type: @entrance.EntranceType, Access: @entrance.AccessLevel
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-controller="EntranceData" asp-action="Edit" asp-route-id="@entrance.Id" class="btn btn-sm btn-warning">Edit</a>
+                                        <a asp-controller="EntranceData" asp-action="Delete" asp-route-id="@entrance.Id" class="btn btn-sm btn-danger">Delete</a>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="Create" class="btn btn-primary">Add New Building</a>
+}
+
