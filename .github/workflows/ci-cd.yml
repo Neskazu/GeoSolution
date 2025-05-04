@@ -1,0 +1,62 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:16-bullseye
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+  quality:
+    runs-on: ubuntu-latest
+    container:
+      image: node:16-bullseye
+    needs: build
+    steps:
+      - name: Checkout code              
+        uses: actions/checkout@v3
+
+      - name: Setup .NET                  
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies      
+        run: dotnet restore
+
+      - name: Check code format
+        run: dotnet format --verify-no-changes --no-restore
+        continue-on-error: true  
+
+      - name: Scan for vulnerable dependencies
+        run: dotnet list package --vulnerable --include-transitive
+        continue-on-error: true  
+
+      - name: List outdated dependencies
+        run: dotnet list package --outdated
+        continue-on-error: true  
+
