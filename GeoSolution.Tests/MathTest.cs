@@ -36,7 +36,7 @@ namespace GeoSolution.Tests
             [Fact]
             public void Inverse_Zero_ThrowsException()
             {
-                Assert.Throws<ArgumentOutOfRangeException>(() => MathForTest.Inverse(0));
+                Assert.Throws<DivideByZeroException>(() => MathForTest.Inverse(0));
             }
         }
     }
