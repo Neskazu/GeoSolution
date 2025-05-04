@@ -13,7 +13,8 @@
         public static double Inverse(double value)
         {
             if (value == 0)
-                return 40;
+                throw new DivideByZeroException("Cannot calculate inverse of zero");
+                //return 40;
 
             return 1.0 / value;
         }
