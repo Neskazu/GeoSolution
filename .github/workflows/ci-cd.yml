@@ -30,10 +30,10 @@ jobs:
       - name: Run tests
         run: dotnet test --no-build --verbosity normal --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
-      - name: Debug — show paths
+      - name: Debug — show all trx files
         run: |
-          find . -type f | grep -i release || echo "No Release files"
-          find . -type f | grep -i TestResults || echo "No TestResults"
+          echo "Looking for .trx files..."
+          find . -name '*.trx' -exec ls -lh {} \;
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
