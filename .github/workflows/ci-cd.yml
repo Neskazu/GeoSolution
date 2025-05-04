@@ -10,45 +10,42 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container:
-      image: node:16-bullseye
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  runs-on: ubuntu-latest
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.0.x'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Restore dependencies
-        run: dotnet restore
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Build
-        run: dotnet build --no-restore
+    - name: Restore dependencies
+      run: dotnet restore
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal --logger:"trx"
-      - name: Debug — show files in workspace
-        run: |
-          find . -type f | grep -i release || echo "No Release files"
-          find . -type f | grep -i TestResults || echo "No TestResults"
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-output
-          path: |
-            **/bin/Release/
-            !**/obj/
+    - name: Run tests
+      run: dotnet test --no-build --verbosity normal --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: |
-            **/TestResults/
+    - name: Debug — show paths
+      run: |
+        find . -type f | grep -i release || echo "No Release files"
+        find . -type f | grep -i TestResults || echo "No TestResults"
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-output
+        path: '**/bin/Release/'
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: TestResults/
 
   quality:
     runs-on: ubuntu-latest
