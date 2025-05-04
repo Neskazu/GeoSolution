@@ -30,6 +30,11 @@ jobs:
 
       - name: Test
         run: dotnet test --no-build --verbosity normal --logger:"trx"
+      - name: Debug — show files in workspace
+        run: |
+          find . -type f | grep -i release || echo "No Release files"
+          find . -type f | grep -i TestResults || echo "No TestResults"
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
