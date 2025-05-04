@@ -10,48 +10,47 @@ on:
 
 jobs:
   build:
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
 
-    - name: Run tests
-      run: dotnet test --no-build --verbosity normal --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
-    - name: Debug — show paths
-      run: |
-        find . -type f | grep -i release || echo "No Release files"
-        find . -type f | grep -i TestResults || echo "No TestResults"
+      - name: Debug — show paths
+        run: |
+          find . -type f | grep -i release || echo "No Release files"
+          find . -type f | grep -i TestResults || echo "No TestResults"
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-output
-        path: '**/bin/Release/'
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: '**/bin/Release/'
 
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results
-        path: TestResults/
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/
 
   quality:
     runs-on: ubuntu-latest
-    container:
-      image: node:16-bullseye
     needs: build
+
     steps:
       - name: Checkout code              
         uses: actions/checkout@v3
@@ -75,4 +74,3 @@ jobs:
       - name: List outdated dependencies
         run: dotnet list package --outdated
         continue-on-error: true  
-
