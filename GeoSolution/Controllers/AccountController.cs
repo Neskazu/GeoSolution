@@ -1,85 +1,106 @@
-﻿using GeoSolution.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using GeoSolution.ViewModels;
+﻿using GeoSolution.Models.MQ;
+using GeoSolution.Services.Messaging;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using NETCore.MailKit.Core;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace GeoSolution.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Login(string returnUrl = "/")
+        private readonly IMessagePublisher _publisher;
+
+        public AccountController(IMessagePublisher publisher)
+        {
+            _publisher = publisher;
+        }
+        public async Task<IActionResult> Login(string returnUrl = "/")
+        {
+            return Challenge(
+                new AuthenticationProperties { RedirectUri = returnUrl },
+                OpenIdConnectDefaults.AuthenticationScheme
+            );
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+           
+            return SignOut(
+                new AuthenticationProperties { RedirectUri = "/" },
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                OpenIdConnectDefaults.AuthenticationScheme
+            );
+        }
+        public IActionResult Register(string returnUrl = "/") 
         {
             return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, OpenIdConnectDefaults.AuthenticationScheme);
         }
-
-
-        public IActionResult Logout()
+        //debug methods delete in prod
+        public async Task<IActionResult> TestEmail([FromServices] IEmailService emailService)
         {
-            return SignOut(new AuthenticationProperties { RedirectUri = "/" },
-                CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
+            await emailService.SendAsync("filippoveric336@gmail.com", "Тестовая тема", "Привет! Это тестовое письмо.");
+            return Ok("Письмо отправлено!");
         }
-        //private readonly UserManager<ApplicationUserModel> _userManager;
-        //private readonly SignInManager<ApplicationUserModel> _signInManager;
 
-        //public AccountController(UserManager<ApplicationUserModel> userManager, SignInManager<ApplicationUserModel> signInManager)
-        //{
-        //    _userManager = userManager;
-        //    _signInManager = signInManager;
-        //}
-        //[HttpGet]
-        //public IActionResult Register()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Register(RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = new ApplicationUserModel{ UserName = model.Email, Email = model.Email };
-        //        var result = await _userManager.CreateAsync(user,model.Password);
-        //        if (result.Succeeded)
-        //        {
-        //            await _signInManager.SignInAsync(user, isPersistent: false);
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        foreach(var error in result.Errors)
-        //        {
-        //            ModelState.AddModelError(string.Empty, error.Description);
-        //        }
+        [Authorize]
+        public IActionResult Claims()
+        {
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            return Json(claims);
+        }
+        [Authorize]
+        public async Task<IActionResult> ShowTokens()
+        {
+            // достанем токены из текущей аутентификации
+            var idToken = await HttpContext.GetTokenAsync("id_token");
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
 
-        //    }
-        //    return View(model);
-        //}
+            return Json(new
+            {
+                IdToken = idToken,
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            });
+        }
+        [Authorize]
+        [Route("account/roles")]
+        public IActionResult Roles()
+        {
+            // Вернёт только клеймы ролей (ClaimTypes.Role)
+            var roles = User.Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value)
+                .ToList();
+            return Json(roles);
+        }
+        public async Task<IActionResult> DebugRoles()
+        {
+            // Получаем то, что ASP.NET Core считает ролями:
+            var roles = User.Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value)
+                .ToArray();
 
-        //[HttpGet]
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
-        //public async Task<IActionResult> Login(LoginViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var result = await _signInManager.PasswordSignInAsync(model.Email,
-        //                                                              model.Password,
-        //                                                              model.RememberMe,
-        //                                                              lockoutOnFailure: false);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        //    }
-        //    return View(model);
-        //}
-        //public async Task<IActionResult> Logout()
-        //{
-        //    await _signInManager.SignOutAsync();
-        //    return RedirectToAction("Index", "Home");
-        //}
+            // Проверяем, что вернёт IsInRole
+            var isAdmin = User.IsInRole("Admin");
+
+            // И для наглядности – все claims
+            var all = User.Claims
+                .Select(c => new { c.Type, c.Value })
+                .ToArray();
+
+            return Json(new
+            {
+                RolesClaimValues = roles,
+                IsInRoleAdmin = isAdmin,
+                AllClaims = all
+            });
+        }
     }
 }

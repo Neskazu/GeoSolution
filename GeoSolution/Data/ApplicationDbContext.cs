@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using GeoSolution.Models;
+using GeoSolution.Models.MQ;
 
 namespace GeoSolution.Data
 {
@@ -9,9 +10,10 @@ namespace GeoSolution.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options) { }
         public DbSet<CustomBuildingModel> CustomBuildings { get; set; }
         public DbSet<EntranceDataModel> EntranceDatas { get; set; }
+        public DbSet<LoginEvent> LoginEvents { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=postgres-container;Database=GeoSolution;Username=postgres;Password=qaz741", x=>x.UseNetTopologySuite());
+            optionsBuilder.UseNpgsql("Host=postgres_container;database=geosolution;username=postgres;Password=qaz741", x=>x.UseNetTopologySuite());
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

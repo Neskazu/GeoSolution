@@ -1,11 +1,20 @@
-using GeoSolution.Data;
-using GeoSolution.Models;
+ï»¿using GeoSolution.Data;
 using GeoSolution.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Prometheus;
+using RabbitMQ.Client;
+using GeoSolution.Options;
+using Microsoft.Extensions.Options;
+using GeoSolution.Services.Messaging;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text.Json;
+using GeoSolution.Services.Notification;
+using GeoSolution.Services.Email;
+using NETCore.MailKit.Core;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -15,10 +24,37 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//add rabbitmq with settings
+builder.Services.Configure<RabbitMqOptions>(builder.Configuration.GetSection("RabbitMQ"));
+builder.Services.AddSingleton<IConnectionFactory>(sp =>
+{
+    var opts = sp.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
+    return new ConnectionFactory
+    {
+        HostName = opts.Host,
+        Port = opts.Port,
+        UserName = opts.Username,
+        Password = opts.Password,
+        VirtualHost = opts.VirtualHost
+    };
+});
+builder.Services.Configure<AccountEventsQueueOptions>(builder.Configuration.GetSection("Queues:AccountEventsQueue"));
+builder.Services.Configure<UserRegistrationQueueOptions>(builder.Configuration.GetSection("Queues:UserRegistrationQueue"));
+//add Producer and Consumer
+builder.Services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
+//notification
+builder.Services.AddHostedService<KeycloakUserRegistrationListener>();
+builder.Services.AddSingleton<INotificationSender, EmailNotificationSender>();
+builder.Services.AddSingleton<INotificationSender, SmsNotificationSender>();
+builder.Services.AddSingleton<NotificationManager>();
+builder.Services.AddHostedService<RabbitMqNotificationConsumer>();
+builder.Services.AddSingleton<INotificationSender, AdminEmailNotificationSender>();
+//Email serivice
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.AddSingleton<IEmailService, MailKitEmailService>();
 //Add db based on Dbcontext
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddHttpClient();
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -31,8 +67,40 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = "aspnet-client";
     options.ClientSecret = "ROS8Svkgo9yYM4IYRwLktPVx2acxvFBg";
     options.ResponseType = OpenIdConnectResponseType.Code;
-    options.RequireHttpsMetadata = false; // Äëÿ ðàçðàáîòêè
+    options.RequireHttpsMetadata = false; // Ð”Ð»Ñ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸
     options.SaveTokens = true;
+    options.Scope.Add("roles");
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        NameClaimType = "preferred_username",
+        RoleClaimType = ClaimTypes.Role
+    };
+    //fix bug from stack "https://stackoverflow.com/questions/78727298/keycloak-with-asp-net-core-mvc-app-claims-never-contain-roles"
+    options.Events = new OpenIdConnectEvents
+    {
+        OnTokenValidated = ctx =>
+        {
+            var token = ctx.TokenEndpointResponse?.AccessToken;
+            if (string.IsNullOrEmpty(token))
+                return Task.CompletedTask;
+
+            var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
+
+            var realmAccess = jwt.Claims.FirstOrDefault(c => c.Type == "realm_access")?.Value;
+            if (realmAccess != null)
+            {
+                using var doc = JsonDocument.Parse(realmAccess);
+                var roles = doc.RootElement.GetProperty("roles").EnumerateArray()
+                              .Select(x => x.GetString());
+
+                var id = (ClaimsIdentity)ctx.Principal.Identity;
+                foreach (var r in roles)
+                    id.AddClaim(new Claim(ClaimTypes.Role, r));
+            }
+
+            return Task.CompletedTask;
+        }
+    };
 });
 
 var app = builder.Build();
