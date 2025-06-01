@@ -75,7 +75,7 @@ builder.Services.AddAuthentication(options =>
         NameClaimType = "preferred_username",
         RoleClaimType = ClaimTypes.Role
     };
-    //fix bug from stack "https://stackoverflow.com/questions/78727298/keycloak-with-asp-net-core-mvc-app-claims-never-contain-roles"
+    //fix bug. Info from stack "https://stackoverflow.com/questions/78727298/keycloak-with-asp-net-core-mvc-app-claims-never-contain-roles"
     options.Events = new OpenIdConnectEvents
     {
         OnTokenValidated = ctx =>

@@ -13,7 +13,7 @@ namespace GeoSolution.Data
         public DbSet<LoginEvent> LoginEvents { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=postgres_container;database=geosolution;username=postgres;Password=qaz741", x=>x.UseNetTopologySuite());
+            optionsBuilder.UseNpgsql("Host=postgres_container;database=GeoSolution;username=postgres;Password=qaz741", x=>x.UseNetTopologySuite());
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.MailKit.Core;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
+using static System.Net.WebRequestMethods;
 
 namespace GeoSolution.Controllers
 {
@@ -56,7 +58,6 @@ namespace GeoSolution.Controllers
         [Authorize]
         public async Task<IActionResult> ShowTokens()
         {
-            // достанем токены из текущей аутентификации
             var idToken = await HttpContext.GetTokenAsync("id_token");
             var accessToken = await HttpContext.GetTokenAsync("access_token");
             var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
@@ -72,7 +73,6 @@ namespace GeoSolution.Controllers
         [Route("account/roles")]
         public IActionResult Roles()
         {
-            // Вернёт только клеймы ролей (ClaimTypes.Role)
             var roles = User.Claims
                 .Where(c => c.Type == ClaimTypes.Role)
                 .Select(c => c.Value)
@@ -81,16 +81,13 @@ namespace GeoSolution.Controllers
         }
         public async Task<IActionResult> DebugRoles()
         {
-            // Получаем то, что ASP.NET Core считает ролями:
             var roles = User.Claims
                 .Where(c => c.Type == ClaimTypes.Role)
                 .Select(c => c.Value)
                 .ToArray();
 
-            // Проверяем, что вернёт IsInRole
             var isAdmin = User.IsInRole("Admin");
 
-            // И для наглядности – все claims
             var all = User.Claims
                 .Select(c => new { c.Type, c.Value })
                 .ToArray();
@@ -102,5 +99,6 @@ namespace GeoSolution.Controllers
                 AllClaims = all
             });
         }
+        
     }
 }
