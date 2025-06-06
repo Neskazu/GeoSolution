@@ -1,6 +1,6 @@
-﻿using GeoSolution.Models.MQ;
+﻿
 using GeoSolution.Options;
-using GeoSolution.Services.Notification;
+using GeoSolution.Services.Messaging.Abstractions;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -11,20 +11,23 @@ namespace GeoSolution.Services.Messaging
     public class RabbitMqNotificationConsumer : BackgroundService
     {
         private readonly IConnectionFactory _factory;
-        private readonly UserRegistrationQueueOptions _queueOptions;
+        private readonly DeffaultQueueOptions _queueOptions;
         private readonly RabbitMqOptions _options;
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly IServiceProvider _sp;
         private readonly ILogger<RabbitMqNotificationConsumer> _logger;
 
         public RabbitMqNotificationConsumer(
             IConnectionFactory factory,
-            IOptions<UserRegistrationQueueOptions> queueOptions,
+            IOptions<DeffaultQueueOptions> queueOptions,
             IOptions<RabbitMqOptions> options,
             IServiceScopeFactory scopeFactory,
+            IServiceProvider serviceProvider,
             ILogger<RabbitMqNotificationConsumer> logger)
         {
             _factory = factory;
             _options = options.Value;
+            _sp = serviceProvider;
             _queueOptions = queueOptions.Value;
             _scopeFactory = scopeFactory;
             _logger = logger;
@@ -38,6 +41,7 @@ namespace GeoSolution.Services.Messaging
             var queueName = _queueOptions.QueueName;
             await channel.QueueDeclareAsync(queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
+            var handlerRegistry = _sp.GetRequiredService<Dictionary<string, IEventHandler>>();
             var consumer = new AsyncEventingBasicConsumer(channel);
             consumer.ReceivedAsync += async (sender, ea) =>
             {
@@ -48,21 +52,24 @@ namespace GeoSolution.Services.Messaging
 
                 try
                 {
-                    using var scope = _scopeFactory.CreateScope();
-                    var notificationManager = scope.ServiceProvider.GetRequiredService<NotificationManager>();
-
-                    var evt = JsonSerializer.Deserialize<UserRegisteredEvent>(json);
-                    if (evt != null)
+                    var envelope = JsonSerializer.Deserialize<Envelope<JsonElement>>(json);
+                    if (envelope == null || string.IsNullOrWhiteSpace(envelope.Type))
                     {
-                        await notificationManager.HandleAsync(evt, stoppingToken);
-                        _logger.LogInformation("NotificationManager successfully processed event for {Username}", evt.Username);
+                        _logger.LogWarning("Cannot parse Envelope or Type is missing");
+                        await channel.BasicNackAsync(ea.DeliveryTag, multiple: false, requeue: false);
+                        return;
+                    }
+                    if (handlerRegistry.TryGetValue(envelope.Type, out var handler))
+                    {
+                        await handler.HandleAsync(envelope.Payload, stoppingToken);
+                        _logger.LogInformation("Event '{Type}' succeed", envelope.Type);
+                        await channel.BasicAckAsync(ea.DeliveryTag, false);
                     }
                     else
                     {
-                        _logger.LogWarning("Failed to deserialize UserRegisteredEvent from JSON");
+                        _logger.LogWarning("No handler for '{Type}'", envelope.Type);
+                        await channel.BasicAckAsync(ea.DeliveryTag, false);
                     }
-
-                    await channel.BasicAckAsync(ea.DeliveryTag, multiple: false);
                 }
                 catch (Exception ex)
                 {

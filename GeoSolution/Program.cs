@@ -15,6 +15,8 @@ using System.Text.Json;
 using GeoSolution.Services.Notification;
 using GeoSolution.Services.Email;
 using NETCore.MailKit.Core;
+using GeoSolution.Services.Messaging.Abstractions;
+using GeoSolution.Services.Messaging.Handlers;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -38,8 +40,19 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
         VirtualHost = opts.VirtualHost
     };
 });
-builder.Services.Configure<AccountEventsQueueOptions>(builder.Configuration.GetSection("Queues:AccountEventsQueue"));
-builder.Services.Configure<UserRegistrationQueueOptions>(builder.Configuration.GetSection("Queues:UserRegistrationQueue"));
+builder.Services.AddSingleton<Dictionary<string, IEventHandler>>(sp =>
+{
+    var dict = new Dictionary<string, IEventHandler>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "UserRegistered", sp.GetRequiredService<UserRegisteredEventHandler>() }
+                // All handlers the we will use
+            };
+    return dict;
+});
+
+builder.Services.Configure<DeffaultQueueOptions>(builder.Configuration.GetSection("Queues:DeffaultQueue"));
+//handlers
+builder.Services.AddSingleton<UserRegisteredEventHandler>();
 //add Producer and Consumer
 builder.Services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
 //notification

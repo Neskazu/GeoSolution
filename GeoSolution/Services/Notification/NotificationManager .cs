@@ -13,17 +13,50 @@ namespace GeoSolution.Services.Notification
 
         public async Task HandleAsync(UserRegisteredEvent evt, CancellationToken ct = default)
         {
-            var hasEmail = !string.IsNullOrWhiteSpace(evt.Email);
-            foreach (var sender in _senders)
+            //пока что так потом вынесу это тоже
+            if (evt.NotifyUserByEmail && !string.IsNullOrWhiteSpace(evt.Email))
             {
-                try
+                var emailSenders = _senders.Where(s => s is EmailNotificationSender);
+                foreach (var sender in emailSenders)
                 {
-                    if(hasEmail)
-                    await sender.SendAsync(evt, ct);
+                    try
+                    {
+                        await sender.SendAsync(evt, ct);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"Ошибка в {sender.GetType().Name}: {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
+            }
+            if (evt.NotifyUserBySms && !string.IsNullOrWhiteSpace(evt.PhoneNumber))
+            {
+                var smsSenders = _senders.Where(s => s is SmsNotificationSender);
+                foreach (var sender in smsSenders)
                 {
-                    Console.Error.WriteLine($"Ошибка в {sender.GetType().Name}: {ex.Message}");
+                    try
+                    {
+                        await sender.SendAsync(evt, ct);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"Ошибка в {sender.GetType().Name}: {ex.Message}");
+                    }
+                }
+            }
+            if (evt.NotifyAdminByEmail)
+            {
+                var adminSenders = _senders.Where(s => s is AdminEmailNotificationSender);
+                foreach (var sender in adminSenders)
+                {
+                    try
+                    {
+                        await sender.SendAsync(evt, ct);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"Ошибка в {sender.GetType().Name}: {ex.Message}");
+                    }
                 }
             }
         }

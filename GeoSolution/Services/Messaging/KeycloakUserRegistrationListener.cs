@@ -34,14 +34,19 @@ namespace GeoSolution.Services.Messaging
                 var email = root.TryGetProperty("email", out var emailElement) ? emailElement.GetString() : null;
 
                 var user = new UserRegisteredEvent(id!, username!, email);
+                var envelope = new Envelope<UserRegisteredEvent>
+                {
+                    Type = "UserRegistered",   
+                    Payload = user
+                };
 
-                var message = JsonSerializer.SerializeToUtf8Bytes(user);
+                var envelopeBytes = JsonSerializer.SerializeToUtf8Bytes(envelope);
 
                 await _publisher.PublishAsync(
-                    exchange: "registration-exchange",
-                    routingKey: "user.registered",
-                    body: message
-                );
+                   exchange: "application-exchange",
+                   routingKey: "app.all",
+                   body: envelopeBytes
+               );
             };
 
 
