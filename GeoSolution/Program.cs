@@ -40,31 +40,31 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
         VirtualHost = opts.VirtualHost
     };
 });
-builder.Services.AddSingleton<Dictionary<string, IEventHandler>>(sp =>
-{
-    var dict = new Dictionary<string, IEventHandler>(StringComparer.OrdinalIgnoreCase)
-            {
-                { "UserRegistered", sp.GetRequiredService<UserRegisteredEventHandler>() }
-                // All handlers the we will use
-            };
-    return dict;
-});
+//builder.Services.AddSingleton<Dictionary<string, IEventHandler>>(sp =>
+//{
+//    var dict = new Dictionary<string, IEventHandler>(StringComparer.OrdinalIgnoreCase)
+//            {
+//                { "UserRegistered", sp.GetRequiredService<UserRegisteredEventHandler>() }
+//                // All handlers the we will use
+//            };
+//    return dict;
+//});
 
 builder.Services.Configure<DeffaultQueueOptions>(builder.Configuration.GetSection("Queues:DeffaultQueue"));
 //handlers
-builder.Services.AddSingleton<UserRegisteredEventHandler>();
+//builder.Services.AddSingleton<UserRegisteredEventHandler>();
 //add Producer and Consumer
 builder.Services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
 //notification
 builder.Services.AddHostedService<KeycloakUserRegistrationListener>();
-builder.Services.AddSingleton<INotificationSender, EmailNotificationSender>();
-builder.Services.AddSingleton<INotificationSender, SmsNotificationSender>();
-builder.Services.AddSingleton<NotificationManager>();
-builder.Services.AddHostedService<RabbitMqNotificationConsumer>();
-builder.Services.AddSingleton<INotificationSender, AdminEmailNotificationSender>();
+//builder.Services.AddSingleton<INotificationSender, EmailNotificationSender>();
+//builder.Services.AddSingleton<INotificationSender, SmsNotificationSender>();
+//builder.Services.AddSingleton<NotificationManager>();
+//builder.Services.AddHostedService<RabbitMqNotificationConsumer>();
+//builder.Services.AddSingleton<INotificationSender, AdminEmailNotificationSender>();
 //Email serivice
-builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
-builder.Services.AddSingleton<IEmailService, MailKitEmailService>();
+//builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+//builder.Services.AddSingleton<IEmailService, MailKitEmailService>();
 //Add db based on Dbcontext
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddHttpClient();

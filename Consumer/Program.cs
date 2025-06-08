@@ -1,9 +1,11 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using GeoSolution.Consumer.Services.Notification;
+using GeoSolution.Shared.Options;
+using GeoSolution.Consumer.Services.Messaging;
 using RabbitMQ.Client;
-using GeoSolution.Shared;           
-using GeoSolution.Consumer;        
+using GeoSolution.Shared.Services.Messaging.Abstractions;
+using NETCore.MailKit.Core;
+using GeoSolution.Consumer.Services.Email;
 
 Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
@@ -23,13 +25,24 @@ Host.CreateDefaultBuilder(args)
                 VirtualHost = opts.VirtualHost
             };
         });
-
-        services.AddScoped<UserRegisteredEventHandler>();
-        services.AddScoped<NotificationManager>();
+        services.AddSingleton<IEmailService, MailKitEmailService>();
+        services.AddSingleton<NotificationManager>();
+        services.Configure<SmtpSettings>(hostContext.Configuration.GetSection("SmtpSettings"));
+        services.Configure<DeffaultQueueOptions>(hostContext.Configuration.GetSection("Queues:DeffaultQueue"));
         services.AddSingleton<INotificationSender, EmailNotificationSender>();
         services.AddSingleton<INotificationSender, SmsNotificationSender>();
         services.AddSingleton<INotificationSender, AdminEmailNotificationSender>();
+        services.AddSingleton<UserRegisteredEventHandler>();
 
+        services.AddSingleton<Dictionary<string, IEventHandler>>(sp =>
+        {
+            var dict = new Dictionary<string, IEventHandler>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "UserRegistered", sp.GetRequiredService<UserRegisteredEventHandler>() }
+               //new can be added easily
+            };
+            return dict;
+        });
         services.AddHostedService<RabbitMqNotificationConsumer>();
     })
     .Build()

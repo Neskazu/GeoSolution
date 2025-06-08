@@ -1,13 +1,17 @@
-﻿
-using GeoSolution.Options;
-using GeoSolution.Services.Messaging.Abstractions;
-using GeoSolution.Shared.Models.MQ;
-using Microsoft.Extensions.Options;
-using RabbitMQ.Client;
+﻿using Microsoft.Extensions.Options;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using GeoSolution.Shared.Options;
 using System.Text.Json;
+using GeoSolution.Shared.Services.Messaging.Abstractions;
+using GeoSolution.Shared.Models.MQ;
 
-namespace GeoSolution.Services.Messaging
+namespace GeoSolution.Consumer.Services.Messaging
 {
     public class RabbitMqNotificationConsumer : BackgroundService
     {
@@ -44,6 +48,7 @@ namespace GeoSolution.Services.Messaging
 
             var handlerRegistry = _sp.GetRequiredService<Dictionary<string, IEventHandler>>();
             var consumer = new AsyncEventingBasicConsumer(channel);
+            _logger.LogInformation("Consumer: Exchange  объявлен."+ queueName);
             consumer.ReceivedAsync += async (sender, ea) =>
             {
                 _logger.LogInformation("RabbitMqNotificationConsumer: Received message deliveryTag={Tag}", ea.DeliveryTag);

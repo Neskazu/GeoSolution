@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace GeoSolution.Shared.Services.Messaging.Abstractions
+{
+    public abstract class EventHandler<T> : IEventHandler
+    {
+        public abstract string EventType { get; }
+        protected abstract Task HandleDomainAsync(T @event, CancellationToken cancellationToken);
+        public async Task HandleAsync(JsonElement payload, CancellationToken cancellationToken)
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var domainEvent = payload.Deserialize<T>(options);
+            if (domainEvent == null)
+                throw new InvalidOperationException(
+                    $"Payload is null for {typeof(T).Name}");
+
+            await HandleDomainAsync(domainEvent, cancellationToken);
+        }
+    }
+}

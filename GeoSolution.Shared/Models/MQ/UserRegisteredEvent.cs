@@ -1,4 +1,10 @@
-﻿namespace GeoSolution.Models.MQ
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GeoSolution.Shared.Models.MQ
 {
     public class UserRegisteredEvent
     {
@@ -15,7 +21,7 @@
             string username,
             string? email,
             string? phoneNumber = null,
-            bool notifyUserByEmail=true,
+            bool notifyUserByEmail = true,
             bool notifyUserBySms = false,
             bool notifyAdminByEmail = false)
         {
