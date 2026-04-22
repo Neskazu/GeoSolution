@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>b383f036-e5c1-4bec-a196-a1b9a927459c</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileRunArguments>--network=geosolution_network</DockerfileRunArguments>
   </PropertyGroup>
 
   <ItemGroup>

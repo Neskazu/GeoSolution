@@ -1,22 +1,23 @@
 ﻿using GeoSolution.Data;
+using GeoSolution.Options;
 using GeoSolution.Services;
+using GeoSolution.Services.Email;
+using GeoSolution.Services.Messaging;
+using GeoSolution.Services.Messaging.Abstractions;
+using GeoSolution.Services.Messaging.Handlers;
+using GeoSolution.Services.Notification;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
+using NETCore.MailKit.Core;
 using Prometheus;
 using RabbitMQ.Client;
-using GeoSolution.Options;
-using Microsoft.Extensions.Options;
-using GeoSolution.Services.Messaging;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
-using GeoSolution.Services.Notification;
-using GeoSolution.Services.Email;
-using NETCore.MailKit.Core;
-using GeoSolution.Services.Messaging.Abstractions;
-using GeoSolution.Services.Messaging.Handlers;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -40,15 +41,6 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
         VirtualHost = opts.VirtualHost
     };
 });
-//builder.Services.AddSingleton<Dictionary<string, IEventHandler>>(sp =>
-//{
-//    var dict = new Dictionary<string, IEventHandler>(StringComparer.OrdinalIgnoreCase)
-//            {
-//                { "UserRegistered", sp.GetRequiredService<UserRegisteredEventHandler>() }
-//                // All handlers the we will use
-//            };
-//    return dict;
-//});
 
 builder.Services.Configure<DeffaultQueueOptions>(builder.Configuration.GetSection("Queues:DeffaultQueue"));
 //handlers
@@ -57,16 +49,12 @@ builder.Services.Configure<DeffaultQueueOptions>(builder.Configuration.GetSectio
 builder.Services.AddSingleton<IMessagePublisher, RabbitMqPublisher>();
 //notification
 builder.Services.AddHostedService<KeycloakUserRegistrationListener>();
-//builder.Services.AddSingleton<INotificationSender, EmailNotificationSender>();
-//builder.Services.AddSingleton<INotificationSender, SmsNotificationSender>();
-//builder.Services.AddSingleton<NotificationManager>();
-//builder.Services.AddHostedService<RabbitMqNotificationConsumer>();
-//builder.Services.AddSingleton<INotificationSender, AdminEmailNotificationSender>();
-//Email serivice
-//builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
-//builder.Services.AddSingleton<IEmailService, MailKitEmailService>();
-//Add db based on Dbcontext
-builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.UseNetTopologySuite()
+    )
+);
 builder.Services.AddHttpClient();
 builder.Services.AddAuthentication(options =>
 {

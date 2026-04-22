@@ -29,7 +29,6 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "dockerRunOptions": "--network=geosolution_network -p 8090:8080",
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
         "ASPNETCORE_ENVIRONMENT": "Development",

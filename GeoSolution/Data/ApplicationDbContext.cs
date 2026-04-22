@@ -11,10 +11,6 @@ namespace GeoSolution.Data
         public DbSet<CustomBuildingModel> CustomBuildings { get; set; }
         public DbSet<EntranceDataModel> EntranceDatas { get; set; }
         public DbSet<LoginEvent> LoginEvents { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=postgres_container;database=GeoSolution;username=postgres;Password=qaz741", x=>x.UseNetTopologySuite());
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
